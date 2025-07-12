@@ -77,7 +77,6 @@ const Home = () => {
         {/* ✅ Chatbot (can be moved to fixed corner for better mobile experience) */}
         <div className="absolute bottom-4 right-4">
           <Chatbot />
-          <img src="bot.png" alt="Chatbot" className="w-10 h-10" />
         </div>
       </div>
 
