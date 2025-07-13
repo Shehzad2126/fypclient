@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-const baseURL = import.meta.env.REACT_APP_BACKEND_BASE_URL;
+import 'react-toastify/dist/ReactToastify.css';
+
 const SignupForm = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -29,8 +29,7 @@ const SignupForm = () => {
     console.log("Before API HIt");
     try {
       const response = await axios.post(
-        `${baseURL}/users/register`,
-        // "http://localhost:3000/api/v1/users/register",
+        "http://localhost:3000/api/v1/users/register",
         {
           fullName: formData.name,
           email: formData.email,

@@ -3,9 +3,10 @@
 import React from "react";
 import { X, ImagePlus } from "lucide-react";
 import axios from "axios";
+
 import { ToastContainer, toast } from "react-toastify";
+
 import "react-toastify/dist/ReactToastify.css";
-const baseURL = import.meta.env.REACT_APP_BACKEND_BASE_URL;
 export default function ProductFormModal({
   product,
   productId,
@@ -60,9 +61,13 @@ export default function ProductFormModal({
         formData.append("image", product.image);
       }
 
-      await axios.patch(`${baseURL}/products/${productId}`, formData, {
-        withCredentials: true,
-      });
+      await axios.patch(
+        `http://localhost:3000/api/v1/products/${productId}`,
+        formData,
+        {
+          withCredentials: true,
+        }
+      );
 
       onClose();
       toast.success("Product Updated!");
@@ -75,7 +80,9 @@ export default function ProductFormModal({
 
     onChange("image", file); // store the actual file
     const reader = new FileReader();
-    reader.onloadend = () => {};
+    reader.onloadend = () => {
+      // setImagePreview(reader.result); // for preview only
+    };
     reader.readAsDataURL(file);
   };
 

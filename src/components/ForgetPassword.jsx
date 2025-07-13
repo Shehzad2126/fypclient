@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-const baseURL = import.meta.env.REACT_APP_BACKEND_BASE_URL;
+
 const ForgotPassword = () => {
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState("");
@@ -20,8 +20,7 @@ const ForgotPassword = () => {
 
     try {
       const response = await axios.post(
-        `${baseURL}/users/forgot-password`,
-
+        "http://localhost:3000/api/v1/users/forgot-password",
         { email }
       );
 
@@ -42,8 +41,7 @@ const ForgotPassword = () => {
 
     try {
       const response = await axios.post(
-        `${baseURL}/users/verify-otp`,
-
+        "http://localhost:3000/api/v1/users/verify-otp",
         {
           email,
           otp: enteredCode,
@@ -71,8 +69,7 @@ const ForgotPassword = () => {
 
     try {
       const response = await axios.post(
-        `${baseURL}/users/reset-password`,
-
+        "http://localhost:3000/api/v1/users/reset-password",
         {
           email,
           password: newPassword,

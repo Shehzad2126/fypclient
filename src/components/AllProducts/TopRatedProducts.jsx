@@ -1,33 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { Products } from "./AllProducts";
 import { Link } from "react-router-dom";
-import axios from "axios";
 
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-const baseURL = import.meta.env.REACT_APP_BACKEND_BASE_URL;
 const TopRatedProducts = () => {
-  const [products, setProducts] = useState([]);
-  const getRandomProducts = (allProducts, count = 4) => {
-    const shuffled = [...allProducts].sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, count);
-  };
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await axios.get(`${baseURL}/products`, {
-          withCredentials: true,
-        });
-        const fetchedProducts = response.data.data.docs;
-        const randomFour = getRandomProducts(fetchedProducts);
-        setProducts(randomFour);
-      } catch (err) {
-        console.error("Failed to fetch products:", err);
-      }
-    };
-
-    fetchProducts();
-  }, []);
+  const topRated = [...Products]
+    .sort((a, b) => b.rating - a.rating)
+    .slice(0, 4);
 
   const handleBuyNow = (product) => {
     localStorage.setItem(
@@ -35,31 +13,22 @@ const TopRatedProducts = () => {
       JSON.stringify({ ...product, quantity: 1 })
     );
     localStorage.setItem("checkoutType", "buyNow");
+    localStorage.removeItem("cart");
   };
 
-  const handleAddToCart = async (product) => {
-    try {
-      const res = await axios.post(
-        `${baseURL}/cart/add`,
+  const handleAddToCart = (product) => {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-        {
-          productId: product._id,
-          quantity: 1,
-        },
-        {
-          withCredentials: true,
-        }
-      );
-      console.log("Added to cart:", res.data);
-      toast.success("Product added to cart!", {
-        className: "bg-green-500 text-white font-semibold ",
-        bodyClassName: "text-sm",
-        progressClassName: "bg-gray-200",
-      });
-    } catch (err) {
-      console.error("Failed to add to cart:", err);
-      toast.error("Failed to add product to cart.");
+    const existing = cart.find((item) => item.id === product.id);
+    if (existing) {
+      existing.quantity += 1;
+    } else {
+      cart.push({ ...product, quantity: 1 });
     }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    localStorage.setItem("checkoutType", "cart");
+    localStorage.removeItem("buyNowProduct");
   };
 
   return (
@@ -68,22 +37,24 @@ const TopRatedProducts = () => {
         Top Rated Products
       </h2>
 
+      {/* Grid layout — fully responsive */}
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {products.map((product) => (
+        {topRated.map((product) => (
           <div
-            key={product._id}
+            key={product.id}
             className="flex flex-col p-4 transition bg-white rounded-lg shadow-md dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600"
           >
             <img
-              src={product.imageFile?.url}
-              alt={product.title}
+              src={product.image}
+              alt={product.name}
               className="object-cover w-full h-40 rounded-md sm:h-32"
             />
+
             <h3 className="mt-3 text-sm font-semibold sm:text-base line-clamp-1">
-              {product.title}
+              {product.name}
             </h3>
-            <p className="text-sm text-gray-500 line-clamp-2">
-              {product.description}
+            <p className="text-sm text-yellow-500">
+              Rating: {product.rating} ⭐
             </p>
             <p className="text-sm font-bold text-green-600 sm:text-base">
               Rs. {product.price}
@@ -107,12 +78,6 @@ const TopRatedProducts = () => {
                 </button>
               </Link>
             </div>
-            <Link
-              to={`/productdetails/${product._id}`}
-              className="mt-2 text-sm text-blue-600 hover:underline sm:text-base"
-            >
-              View Details
-            </Link>
           </div>
         ))}
       </div>
