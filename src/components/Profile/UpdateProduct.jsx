@@ -75,9 +75,7 @@ export default function ProductFormModal({
 
     onChange("image", file); // store the actual file
     const reader = new FileReader();
-    reader.onloadend = () => {
-      setImagePreview(reader.result); // for preview only
-    };
+    reader.onloadend = () => {};
     reader.readAsDataURL(file);
   };
 
