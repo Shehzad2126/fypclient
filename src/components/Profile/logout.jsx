@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+const baseURL = import.meta.env.REACT_APP_BACKEND_BASE_URL;
 export default function Logout() {
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(true);
@@ -13,7 +14,7 @@ export default function Logout() {
     try {
       // Call logout API
       await axios.post(
-        "http://localhost:3000/api/v1/users/logout",
+        `${baseURL}/users/logout`,
         {},
         {
           withCredentials: true, // important if your backend is using cookies

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaTrash } from "react-icons/fa";
 import axios from "axios";
-
+const baseURL = import.meta.env.REACT_APP_BACKEND_BASE_URL;
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -16,7 +16,7 @@ const CartPage = () => {
 
   const fetchCart = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/v1/cart", {
+      const response = await axios.get(`${baseURL}/cart`, {
         withCredentials: true,
       });
       console.log("Cart fetched:", response.data.data);
@@ -33,7 +33,7 @@ const CartPage = () => {
 
   const handleRemoveConfirmed = async () => {
     try {
-      await axios.delete("http://localhost:3000/api/v1/cart/remove", {
+      await axios.delete(`${baseURL}/cart/remove`, {
         data: {
           productId: itemToRemove.product._id,
         },

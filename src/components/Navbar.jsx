@@ -8,7 +8,7 @@ import DarkMode from "./DarkMode";
 import { MdAccountCircle } from "react-icons/md";
 import { FaCaretDown } from "react-icons/fa";
 import { HiMenu, HiX } from "react-icons/hi";
-
+const baseURL = import.meta.env.REACT_APP_BACKEND_BASE_URL;
 const Menu = [
   { id: 1, name: "Home", link: "/" },
   { id: 2, name: "About Us", link: "/about" },
@@ -37,7 +37,7 @@ const Navbar = () => {
 
   const fetchCart = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/v1/cart", {
+      const response = await axios.get(`${baseURL}/cart`, {
         withCredentials: true,
       });
       console.log("Cart fetched..................:", response.data.data);

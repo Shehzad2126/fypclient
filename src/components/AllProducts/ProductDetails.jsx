@@ -4,6 +4,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 // import { Products } from "./AllProducts";
 import axios from "axios";
+
+const baseURL = import.meta.env.REACT_APP_BACKEND_BASE_URL;
 const ProductDetails = () => {
   const [product, setProducts] = useState(null);
   const [error, setError] = useState("");
@@ -14,7 +16,7 @@ const ProductDetails = () => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/v1/products/${id}`,
+          `${baseURL}/products/${id}`,
 
           {
             withCredentials: true, // important if your backend is using cookies
@@ -37,7 +39,7 @@ const ProductDetails = () => {
   const addToCart = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/v1/cart/add",
+        `${baseURL}/cart/add`,
         {
           productId: product._id, // your API expects this
           quantity: 1,
@@ -58,8 +60,12 @@ const ProductDetails = () => {
     }
   };
 
-  const buyNow = () => {
-    console.log("buy product");
+  const handleBuyNow = (product) => {
+    localStorage.setItem(
+      "buyNowProduct",
+      JSON.stringify({ ...product, quantity: 1 })
+    );
+    localStorage.setItem("checkoutType", "buyNow");
   };
 
   if (!product) {
@@ -118,7 +124,7 @@ const ProductDetails = () => {
               </button>
               <Link to="/order">
                 <button
-                  onClick={buyNow}
+                  onClick={() => handleBuyNow(product)}
                   className="w-full px-5 py-3 text-white transition bg-purple-600 rounded sm:w-auto hover:bg-purple-700"
                 >
                   Buy Now

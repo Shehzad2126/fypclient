@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+const baseURL = import.meta.env.REACT_APP_BACKEND_BASE_URL;
 const ForgotPassword = () => {
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState("");
@@ -19,10 +19,9 @@ const ForgotPassword = () => {
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/v1/users/forgot-password",
-        { email }
-      );
+      const response = await axios.post(`${baseURL}/users/forgot-password`, {
+        email,
+      });
 
       alert(response.data.message || "OTP has been sent to your email.");
       setStep(2);
@@ -40,13 +39,10 @@ const ForgotPassword = () => {
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/v1/users/verify-otp",
-        {
-          email,
-          otp: enteredCode,
-        }
-      );
+      const response = await axios.post(`${baseURL}/users/verify-otp`, {
+        email,
+        otp: enteredCode,
+      });
 
       alert(response.data.message || "Code verified successfully.");
       setStep(3);
@@ -68,14 +64,11 @@ const ForgotPassword = () => {
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/v1/users/reset-password",
-        {
-          email,
-          password: newPassword,
-          confirmPassword,
-        }
-      );
+      const response = await axios.post(`${baseURL}/users/reset-password`, {
+        email,
+        password: newPassword,
+        confirmPassword,
+      });
 
       alert(response.data.message || "Password reset successful!");
       navigate("/login");

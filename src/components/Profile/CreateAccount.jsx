@@ -7,6 +7,7 @@ import axios from "axios";
 import ProductFormModal from "./UpdateProduct";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+const baseURL = import.meta.env.REACT_APP_BACKEND_BASE_URL;
 export default function FarmerProfile() {
   const navigate = useNavigate();
 
@@ -59,10 +60,9 @@ export default function FarmerProfile() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/api/v1/products",
-          { withCredentials: true }
-        );
+        const response = await axios.get(`${baseURL}/products`, {
+          withCredentials: true,
+        });
         const allProducts = response.data.data.docs;
         setFetchProducts(allProducts);
 
@@ -112,13 +112,9 @@ export default function FarmerProfile() {
       formData.append("quantity", newProduct.quantity);
       formData.append("image", newProduct.image);
       console.log("This is form Data ", formData);
-      const response = await axios.post(
-        "http://localhost:3000/api/v1/products",
-        formData,
-        {
-          withCredentials: true, // if your backend uses cookies
-        }
-      );
+      const response = await axios.post(`${baseURL}/products`, formData, {
+        withCredentials: true, // if your backend uses cookies
+      });
 
       const savedProduct = response.data.data || {}; // adjust according to your backend response
 
@@ -150,12 +146,9 @@ export default function FarmerProfile() {
   };
   const confirmDelete = async () => {
     try {
-      await axios.delete(
-        `http://localhost:3000/api/v1/products/${productToDeleteIndex}`,
-        {
-          withCredentials: true,
-        }
-      );
+      await axios.delete(`${baseURL}/products/${productToDeleteIndex}`, {
+        withCredentials: true,
+      });
 
       // Remove product from state
       setProducts((prevProducts) =>
@@ -217,7 +210,7 @@ export default function FarmerProfile() {
     if (isEditing) {
       try {
         await axios.patch(
-          "http://localhost:3000/api/v1/users/profile",
+          `${baseURL}/users/profile`,
           {
             fullName: farmerDetails.name,
             phone: farmerDetails.phone,
@@ -245,16 +238,12 @@ export default function FarmerProfile() {
     formData.append("avatar", file); // make sure the key matches the multer field name
 
     try {
-      const response = await axios.patch(
-        "http://localhost:3000/api/v1/users/avatar",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await axios.patch(`${baseURL}/users/avatar`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        withCredentials: true,
+      });
 
       const uploadedImageUrl = response.data?.data?.avatar;
 
@@ -272,10 +261,9 @@ export default function FarmerProfile() {
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/api/v1/users/current-user",
-          { withCredentials: true }
-        );
+        const response = await axios.get(`${baseURL}/users/current-user`, {
+          withCredentials: true,
+        });
         const userData = response.data.data; // adjust if your backend returns differently
         setCurrentUser(userData);
         console.log("Current user data from API:", userData);
