@@ -7,7 +7,7 @@ import axios from "axios";
 import ProductFormModal from "./UpdateProduct";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-const baseURL = import.meta.env.REACT_APP_BACKEND_BASE_URL;
+const baseURL = process.env.REACT_APP_BACKEND_BASE_URL;
 export default function FarmerProfile() {
   const navigate = useNavigate();
 

@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-const baseURL = import.meta.env.REACT_APP_BACKEND_BASE_URL;
+const baseURL = process.env.REACT_APP_BACKEND_BASE_URL;
 const LoginForm = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [showPopup, setShowPopup] = useState(false);

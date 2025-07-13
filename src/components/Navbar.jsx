@@ -8,7 +8,8 @@ import DarkMode from "./DarkMode";
 import { MdAccountCircle } from "react-icons/md";
 import { FaCaretDown } from "react-icons/fa";
 import { HiMenu, HiX } from "react-icons/hi";
-const baseURL = import.meta.env.REACT_APP_BACKEND_BASE_URL;
+const baseURL = process.env.REACT_APP_BACKEND_BASE_URL;
+
 const Menu = [
   { id: 1, name: "Home", link: "/" },
   { id: 2, name: "About Us", link: "/about" },

@@ -5,7 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-const baseURL = import.meta.env.REACT_APP_BACKEND_BASE_URL;
+const baseURL = process.env.REACT_APP_BACKEND_BASE_URL;
 export default function Logout() {
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(true);

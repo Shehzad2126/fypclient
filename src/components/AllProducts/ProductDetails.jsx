@@ -4,8 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 // import { Products } from "./AllProducts";
 import axios from "axios";
-
-const baseURL = import.meta.env.REACT_APP_BACKEND_BASE_URL;
+const baseURL = process.env.REACT_APP_BACKEND_BASE_URL;
 const ProductDetails = () => {
   const [product, setProducts] = useState(null);
   const [error, setError] = useState("");

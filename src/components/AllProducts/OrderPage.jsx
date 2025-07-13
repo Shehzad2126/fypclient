@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Dialog } from "@headlessui/react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
-const baseURL = import.meta.env.REACT_APP_BACKEND_BASE_URL;
+const baseURL = process.env.REACT_APP_BACKEND_BASE_URL;
 const ConfirmOrderForm = () => {
   const [formData, setFormData] = useState({
     name: "",

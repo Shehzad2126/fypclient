@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Phone, MapPin, Home } from "lucide-react";
 import { useLocation } from "react-router-dom";
-import axios from "axios";
-const baseURL = import.meta.env.REACT_APP_BACKEND_BASE_URL;
+import axios from "axios";const baseURL = process.env.REACT_APP_BACKEND_BASE_URL;
 const ContactFarmer = () => {
   const location = useLocation();
   const ownerId = location.state?.ownerId;

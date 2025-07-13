@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useLocation, Link } from "react-router-dom";
 import Productimages from "../Productimages";
 import axios from "axios";
-const baseURL = import.meta.env.REACT_APP_BACKEND_BASE_URL;
+const baseURL = process.env.REACT_APP_BACKEND_BASE_URL;
 export const Products = Array.from({ length: 17 }, (_, i) => {
   let category = "";
 
