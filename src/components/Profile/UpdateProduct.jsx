@@ -75,16 +75,6 @@ export default function ProductFormModal({
       toast.error("Update product failed:", error);
     }
   };
-  const handleImageChange = (file) => {
-    if (!file) return;
-
-    onChange("image", file); // store the actual file
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      // setImagePreview(reader.result); // for preview only
-    };
-    reader.readAsDataURL(file);
-  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
