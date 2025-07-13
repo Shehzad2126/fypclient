@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useLocation, Link } from "react-router-dom";
 import Productimages from "../Productimages";
 import axios from "axios";
+const baseURL = import.meta.env.REACT_APP_BACKEND_BASE_URL;
 // Dummy products array with categories and ratings
 export const Products = Array.from({ length: 17 }, (_, i) => {
   let category = "";
@@ -34,7 +35,8 @@ const AllProducts = () => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/v1/products",
+          `${baseURL}/products`,
+          // "http://localhost:3000/api/v1/products",
           {},
           {
             withCredentials: true,

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Dialog } from "@headlessui/react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
+import { useNavigate } from "react-router-dom";
+const baseURL = import.meta.env.REACT_APP_BACKEND_BASE_URL;
 const ConfirmOrderForm = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -19,24 +20,37 @@ const ConfirmOrderForm = () => {
 
   const navigate = useNavigate();
   useEffect(() => {
-    const fetchCart = async () => {
-      try {
-        const response = await axios.get("http://localhost:3000/api/v1/cart", {
-          withCredentials: true,
-        });
-        setCartItems(response.data.data.items);
-      } catch (err) {
-        console.error("Failed to fetch cart:", err);
-      }
-    };
+    const checkoutType = localStorage.getItem("checkoutType");
 
-    fetchCart();
+    if (checkoutType === "buyNow") {
+      const singleProduct = JSON.parse(localStorage.getItem("buyNowProduct"));
+      setCartItems([{ product: singleProduct, quantity: 1 }]);
+    } else {
+      const fetchCart = async () => {
+        try {
+          const response = await axios.get(
+            `${baseURL}/cart`,
+
+            {
+              withCredentials: true,
+            }
+          );
+          setCartItems(response.data.data.items);
+        } catch (err) {
+          console.error("Failed to fetch cart:", err);
+        }
+      };
+
+      fetchCart();
+    }
   }, []);
+
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/v1/users/current-user",
+          `${baseURL}/users/current-user`,
+
           { withCredentials: true }
         );
         const userData = response.data.data;
@@ -74,11 +88,13 @@ const ConfirmOrderForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    localStorage.removeItem("buyNowProduct");
+    localStorage.removeItem("checkoutType");
     try {
       // Step 1: Submit the order
       await axios.post(
-        "http://localhost:3000/api/v1/orders/confirm",
+        `${baseURL}/orders/confirm`,
+
         {
           ...formData,
           cartItems,
@@ -87,11 +103,12 @@ const ConfirmOrderForm = () => {
       );
 
       // Step 2: Clear the cart
-      await axios.delete("http://localhost:3000/api/v1/cart/clear", {
+      await axios.delete(`${baseURL}/cart/clear`, {
         withCredentials: true,
       });
 
-      // Step 4: Show confirmation modal
+      localStorage.removeItem("buyNowProduct");
+      localStorage.removeItem("checkoutType");
       setIsOpen(true);
     } catch (err) {
       console.error("Order or cart clearing failed", err);

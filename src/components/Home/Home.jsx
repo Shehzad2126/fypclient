@@ -28,26 +28,27 @@ const Home = () => {
       {/* Hero Section */}
       <div className="relative w-full h-[400px] sm:h-[500px] md:h-[600px] lg:h-[700px] overflow-hidden">
         <div
-          className="absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out bg-center bg-cover brightness-50"
+          className="absolute inset-0 w-full h-full bg-cover bg-center brightness-50 transition-opacity duration-1000 ease-in-out"
           style={{ backgroundImage: images[currentIndex] }}
         ></div>
 
-        <div className="absolute inset-0 flex flex-col items-center justify-center px-4 text-center text-white sm:px-6 md:px-8">
-          <h1 className="mt-1 text-2xl font-bold leading-tight sm:text-3xl md:text-5xl">
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center px-4 sm:px-6 md:px-8">
+          <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold mt-1 leading-tight">
             Pakistan's Agriculture Marketplace
           </h1>
           <div className="w-full max-w-3xl mt-2">
-            <p className="text-xs leading-relaxed sm:text-sm md:text-lg">
+            <p className="text-xs sm:text-sm md:text-lg leading-relaxed">
               Welcome to Farmers Marketplace, a digital platform designed to
               connect farmers directly with buyers. We make it easy for farmers
               to sell their fresh produce at fair prices while ensuring
-              consumers get high-quality, organic, and locally sourced products.
-              No middlemen, no extra costs—just fresh, farm-to-table goodness.
+              consumers get high-quality, organic, and locally sourced
+              products. No middlemen, no extra costs—just fresh, farm-to-table
+              goodness.
             </p>
           </div>
-          <div className="flex flex-col gap-3 mt-6 sm:flex-row">
+          <div className="flex flex-col sm:flex-row gap-3 mt-6">
             <Link to="/login">
-              <button className="px-6 py-3 text-sm font-semibold text-white transition rounded-lg sm:text-base bg-gradient-to-r from-orange-400 to-yellow-500 hover:scale-105">
+              <button className="px-6 py-3 text-sm sm:text-base text-white font-semibold rounded-lg bg-gradient-to-r from-orange-400 to-yellow-500 hover:scale-105 transition">
                 Login
               </button>
             </Link>
@@ -61,7 +62,7 @@ const Home = () => {
               (prevIndex) => (prevIndex - 1 + images.length) % images.length
             )
           }
-          className="absolute z-10 p-2 text-white transform -translate-y-1/2 rounded-full left-2 sm:left-4 top-1/2 bg-black/50 sm:p-3"
+          className="absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 sm:p-3 rounded-full z-10"
         >
           ❮
         </button>
@@ -69,7 +70,7 @@ const Home = () => {
           onClick={() =>
             setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length)
           }
-          className="absolute z-10 p-2 text-white transform -translate-y-1/2 rounded-full right-2 sm:right-4 top-1/2 bg-black/50 sm:p-3"
+          className="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 sm:p-3 rounded-full z-10"
         >
           ❯
         </button>
@@ -77,6 +78,7 @@ const Home = () => {
         {/* ✅ Chatbot (can be moved to fixed corner for better mobile experience) */}
         <div className="absolute bottom-4 right-4">
           <Chatbot />
+          <img src="bot.png" alt="Chatbot" className="w-10 h-10" />
         </div>
       </div>
 

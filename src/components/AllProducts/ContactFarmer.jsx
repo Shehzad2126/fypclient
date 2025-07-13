@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Phone, MapPin, Home } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+const baseURL = import.meta.env.REACT_APP_BACKEND_BASE_URL;
 
 const ContactFarmer = () => {
   const location = useLocation();
@@ -16,7 +17,8 @@ const ContactFarmer = () => {
     const fetchFarmer = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/v1/users/${ownerId}`,
+          `${baseURL}/users/${ownerId}`,
+
           {
             withCredentials: true,
           }

@@ -7,6 +7,7 @@ import axios from "axios";
 import ProductFormModal from "./UpdateProduct";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+const baseURL = import.meta.env.REACT_APP_BACKEND_BASE_URL;
 export default function FarmerProfile() {
   const navigate = useNavigate();
 
@@ -59,10 +60,9 @@ export default function FarmerProfile() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/api/v1/products",
-          { withCredentials: true }
-        );
+        const response = await axios.get(`${baseURL}/products`, {
+          withCredentials: true,
+        });
         const allProducts = response.data.data.docs;
         setFetchProducts(allProducts);
 
@@ -113,7 +113,8 @@ export default function FarmerProfile() {
       formData.append("image", newProduct.image);
       console.log("This is form Data ", formData);
       const response = await axios.post(
-        "http://localhost:3000/api/v1/products",
+        // "http://localhost:3000/api/v1/products"
+        `${baseURL}/products`,
         formData,
         {
           withCredentials: true, // if your backend uses cookies
@@ -151,7 +152,7 @@ export default function FarmerProfile() {
   const confirmDelete = async () => {
     try {
       await axios.delete(
-        `http://localhost:3000/api/v1/products/${productToDeleteIndex}`,
+        `${baseURL}/products/products/${productToDeleteIndex}`,
         {
           withCredentials: true,
         }
@@ -217,7 +218,7 @@ export default function FarmerProfile() {
     if (isEditing) {
       try {
         await axios.patch(
-          "http://localhost:3000/api/v1/users/profile",
+          `${baseURL}/users/profile`,
           {
             fullName: farmerDetails.name,
             phone: farmerDetails.phone,
@@ -245,16 +246,12 @@ export default function FarmerProfile() {
     formData.append("avatar", file); // make sure the key matches the multer field name
 
     try {
-      const response = await axios.patch(
-        "http://localhost:3000/api/v1/users/avatar",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await axios.patch(`${baseURL}/users/avatar`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        withCredentials: true,
+      });
 
       const uploadedImageUrl = response.data?.data?.avatar;
 
@@ -273,7 +270,8 @@ export default function FarmerProfile() {
     const fetchCurrentUser = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/v1/users/current-user",
+          `${baseURL}/users/current-user`,
+          // "http://localhost:3000/api/v1/users/current-user",
           { withCredentials: true }
         );
         const userData = response.data.data; // adjust if your backend returns differently
@@ -339,7 +337,7 @@ export default function FarmerProfile() {
                 Upload Profile Pic
               </button>
 
-              <button
+              {/* <button
                 type="button"
                 onClick={() => {
                   setProfileImage("/placeholder.svg?height=150&width=150");
@@ -348,7 +346,7 @@ export default function FarmerProfile() {
                 className="w-full px-6 py-2 text-sm text-white bg-red-800 rounded-md sm:w-auto hover:bg-red-700 sm:text-base"
               >
                 Delete Profile Pic
-              </button>
+              </button> */}
 
               <h2 className="mt-2 text-lg font-semibold text-gray-800 sm:text-xl dark:text-black">
                 {currentUser.fullName}
